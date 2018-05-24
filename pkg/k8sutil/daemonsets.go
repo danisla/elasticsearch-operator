@@ -41,13 +41,13 @@ const (
 // DeleteNodeInitDaemonset delete the node init daemonset
 func (k *K8sutil) DeleteNodeInitDaemonset(namespace string) error {
 
-	ds, err := k.Kclient.ExtensionsV1beta1().DaemonSets(namespace).Get(esOperatorSysctlName, metav1.GetOptions{})
+	err := k.Kclient.ExtensionsV1beta1().DaemonSets(namespace).Delete(esOperatorSysctlName, &metav1.DeleteOptions{})
 
 	if err != nil {
-		return fmt.Errorf("Could not delete daemonset: %s ", ds.Name)
+		return fmt.Errorf("Could not delete daemonset: %s ", esOperatorSysctlName)
 	}
 
-	logrus.Infof("Deleted daemonset: %s", ds.Name)
+	logrus.Infof("Deleted daemonset: %s", esOperatorSysctlName)
 	return nil
 
 }

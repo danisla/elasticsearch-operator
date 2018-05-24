@@ -25,6 +25,8 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 package controller
 
 import (
+	"os"
+
 	"github.com/Sirupsen/logrus"
 	"github.com/upmc-enterprises/elasticsearch-operator/pkg/k8sutil"
 )
@@ -66,11 +68,12 @@ func (c *Controller) Run() error {
 }
 
 func (c *Controller) init() error {
-	crd, err := c.k8sclient.CreateKubernetesCustomResourceDefinition()
+	_, err := c.k8sclient.CreateKubernetesCustomResourceDefinition()
 	if err != nil {
 		return err
 	}
 
-	return c.k8sclient.CreateNodeInitDaemonset(crd.ObjectMeta.Namespace)
+	ns, _ := os.LookupEnv("NAMESPACE")
+	return c.k8sclient.CreateNodeInitDaemonset(ns)
 
 }
