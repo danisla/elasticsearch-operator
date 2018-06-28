@@ -221,7 +221,7 @@ func (k *K8sutil) CreateKubernetesCustomResourceDefinition() (*apiextensionsv1be
 		logrus.Infof("SKIPPING: already exists %#v\n", crd.ObjectMeta.Name)
 	}
 
-	return crd, err
+	return crd, nil
 }
 
 // MonitorElasticSearchEvents watches for new or removed clusters
